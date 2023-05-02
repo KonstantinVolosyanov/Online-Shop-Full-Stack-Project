@@ -1,0 +1,16 @@
+/* Body */
+html,
+body,
+#root {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    font-size: large;
+    color: black;
+}
+
+a {
+    color: rgb(25, 25, 87);
+    text-decoration: none;
+}

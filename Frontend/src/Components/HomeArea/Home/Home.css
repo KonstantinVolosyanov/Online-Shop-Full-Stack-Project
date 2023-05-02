@@ -1,0 +1,7 @@
+.Home {
+   box-sizing: border-box;
+   display: inline-flex;
+   flex-direction: row;
+   margin: 0px;
+   padding: 0px;
+}

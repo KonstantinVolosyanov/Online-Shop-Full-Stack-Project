@@ -1,0 +1,35 @@
+.Layout {
+   height: 100vh;
+   box-sizing: border-box;
+   display: grid;
+   grid-template-columns: repeat(6, 1fr);
+   grid-template-rows: 15vh 85vh;
+}
+
+.Layout>header {
+   grid-column: span 6;
+   margin: 0;
+   padding: 0;
+   background-color: peachpuff;
+   width: 100vw;
+}
+
+
+.Layout>menu {
+   grid-column: span 1;
+   height: 85vh;
+   width: 20vw;
+   margin: 0;
+   padding: 0;
+}
+
+.Layout>main {
+   grid-column: span 5;
+   display: inline-flex;
+   height: 85vh;
+   width: 80vw;
+   overflow-y: auto;
+   overflow-x: hidden;
+   margin: 0;
+   padding: 0;
+}

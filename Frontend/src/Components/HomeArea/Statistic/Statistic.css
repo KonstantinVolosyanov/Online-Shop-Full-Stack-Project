@@ -1,0 +1,16 @@
+.Statistic {
+   background-color: rgb(100, 136, 177);
+   box-sizing: border-box;
+   display: inline-flex;
+   flex-direction: column;
+   width: 20vw;
+   height: 85vh;
+   text-align: center;
+   margin: 0;
+   padding: 10px;
+   color: white;
+}
+
+.Statistic>h1 {
+   box-sizing: border-box;
+}

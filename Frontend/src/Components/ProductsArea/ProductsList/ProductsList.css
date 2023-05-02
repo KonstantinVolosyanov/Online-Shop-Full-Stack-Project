@@ -1,0 +1,12 @@
+.ProductsList>div {
+   box-sizing: border-box;
+   display: inline-flex;
+   flex-wrap: wrap;
+   margin: 0;
+   width: 80vw;
+   height: 85vh;
+   background-color: rgb(142, 182, 226);
+   color: white;
+   text-align: center;
+
+}

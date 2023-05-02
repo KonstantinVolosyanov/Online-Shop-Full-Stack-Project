@@ -1,0 +1,11 @@
+.AuthMenu {
+   position: absolute;
+   top: 5px;
+   right: 20px;
+   color: white;
+   background-color: peachpuff;
+}
+
+.Pipe {
+   color: rgb(25, 25, 87);
+}

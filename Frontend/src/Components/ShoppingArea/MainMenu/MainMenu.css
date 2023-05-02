@@ -1,0 +1,12 @@
+.MainMenu {
+   box-sizing: border-box;
+   display: inline-flex;
+   flex-direction: column;
+   margin: 0;
+   padding: 0px;
+   width: 20vw;
+   height: 85vh;
+   text-align: left;
+   background-color: rgb(100, 136, 177);
+   color: white;
+}
