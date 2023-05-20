@@ -5,15 +5,21 @@ import { ProductModel } from "./product-model";
 //1. Interface describing the model (must extend mongoose.Document)
 export interface ICartProductModel extends Document {
    // Don't define _id, it is automatically defined.
+   name: string;
    productId: ObjectId;
    amountInCart: number;
    amountPrice: number;
    price: number;
    cartId: ObjectId;
+   imageName: string;
 }
 
 //2. Schema build from the interface containing rules regarding the model:
 export const CartProductSchema = new Schema<ICartProductModel>({
+   name: {
+      type: String,
+      required: [true, "Missing name"],
+   },
    amountInCart: {
       type: Number,
       required: [true, "Missing amount"],
@@ -33,6 +39,10 @@ export const CartProductSchema = new Schema<ICartProductModel>({
    },
    cartId: {
       type: mongoose.Schema.Types.ObjectId,
+   },
+   imageName: {
+      type: String,
+      // required: [true, "Missing image Url"],
    }
 }, {
    versionKey: false, // Don't create __v field in each document.

@@ -6,7 +6,7 @@ import verifyLoggedIn from "../3-middleware/verify-logged-in";
 const router = express.Router(); // Capital R
 
 // GET all products // http://localhost:4000/api/products
-router.get("/products", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+router.get("/products", async (request: Request, response: Response, next: NextFunction) => {
     try {
         // Get all products by products service:
         const products = await productsService.getAllProducts();
@@ -30,6 +30,7 @@ router.get("/categories", verifyLoggedIn, async (request: Request, response: Res
         next(err);
     }
 });
+
 
 // Get Image // GET // http://localhost:4000/api/vacations/images/:imageName
 router.get("/products/images/:imageName", async (request: Request, response: Response, next: NextFunction) => {

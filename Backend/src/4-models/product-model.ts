@@ -34,8 +34,6 @@ export const ProductSchema = new Schema<IProductModel>({
       type: Object,
       validate: {
          validator: function (this: IProductModel) {
-            console.log(this);
-
             // Only validate if it's a POST request or image is present
             return !this.isNew || this.image != null;
          },
@@ -48,7 +46,7 @@ export const ProductSchema = new Schema<IProductModel>({
    },
    imageName: {
       type: String,
-      // required: [true, "Missing image name"],
+      required: [true, "Missing image name"],
    },
    categoryId: {
       type: mongoose.Schema.Types.ObjectId,

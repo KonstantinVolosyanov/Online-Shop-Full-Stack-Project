@@ -13,4 +13,26 @@
 
 .Statistic>h1 {
    box-sizing: border-box;
+   margin: 0;
+   text-align: center;
+   color: yellowgreen
+}
+
+
+.Statistic>h2 {
+   box-sizing: border-box;
+   margin: 0;
+   text-align: center;
+   color: yellowgreen
+}
+
+.Statistic>h3 {
+   box-sizing: border-box;
+   margin: 0;
+   text-align: center;
+   color: yellowgreen
+}
+
+.Statistic>p {
+   margin: 0;
 }

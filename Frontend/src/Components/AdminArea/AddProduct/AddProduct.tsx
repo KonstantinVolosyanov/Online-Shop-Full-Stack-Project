@@ -7,37 +7,60 @@ import productServices from "../../../Services/ProductServices";
 import CategoryModel from "../../../Models/CategoryModel";
 import { useEffect, useState } from "react";
 import notify from "../../../Utils/Notify";
+import { UserModel } from "../../../Models/UserModel";
+import { authStore } from "../../../Redux/AuthState";
 
 function AddProduct(): JSX.Element {
+    //user useState
+    const [user, setUser] = useState<UserModel>();
 
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
+    //useForm
     const { register, handleSubmit, formState } = useForm<ProductModel>();
+
+    //useState for categories
+    const [categories, setCategories] = useState<CategoryModel[]>([]);
+
+    //useNavigate
     const navigate = useNavigate();
 
+    //useEffect for categories
     useEffect(() => {
         productServices.getAllCategories()
-            .then(dbCategories => setCategories(dbCategories))
-            .catch(err => notify.error(err))
+            .then((dbCategories) => setCategories(dbCategories))
+            .catch((err) => notify.error(err));
     }, [])
 
-    async function send(formData: ProductModel) {
+    useEffect(() => {
+        if (!authStore.getState().user) {
+            navigate("/home")
+        }
+        setUser(authStore.getState().user);
+        //Listen to authState changes:
+        const unsubscribe = authStore.subscribe(() => {
+            setUser(authStore.getState().user);
+        });
+        return unsubscribe;
+    }, []);
+
+    //Send added product
+    async function send(product: ProductModel) {
         try {
-            formData.image = (formData.image as unknown as FileList)[0];
-            const image = formData.image;
-            await adminServices.addProduct(formData, image);
+            product.image = (product.image as unknown as FileList)[0];
+            await adminServices.addProduct(product);
             notify.success("Product has been added.");
             navigate("/list");
         }
         catch (err: any) {
-            alert(err.message);
+            notify.error(err);
         }
     }
 
     return (
         <div className="AddProduct">
+
             <h2>Add Product</h2>
 
-            <form onSubmit={handleSubmit((formData) => send(formData))}>
+            <form onSubmit={handleSubmit(send)}>
 
                 <label>Name: </label>
                 <br />

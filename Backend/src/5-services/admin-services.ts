@@ -1,4 +1,5 @@
 import imageHandler from "../2-utils/image-handler";
+import { CategoryModel, ICategoryModel } from "../4-models/category-model";
 import { ResourceNotFoundError, ValidationError } from "../4-models/client-errors";
 import { IProductModel, ProductModel } from "../4-models/product-model";
 
@@ -14,12 +15,13 @@ async function getOneProduct(_id: string): Promise<IProductModel> {
 
 //Add new product
 async function addProduct(product: IProductModel, image: Express.Multer.File): Promise<IProductModel> {
+   product.imageName = await imageHandler.saveImage(image);
+   // product.imageUrl = await imageHandler.getAbsolutePath(product.imageName)
    // Validate
    const errors = product.validateSync();
    // If validation failed, throw validation error:
    if (errors) throw new ValidationError(errors.message);
    // Save image name to database:
-   product.imageName = await imageHandler.saveImage(image);
    // Save and return product:
    return product.save();
 }
@@ -59,10 +61,21 @@ async function deleteProduct(_id: string): Promise<void> {
    if (!deleteProduct) throw new ResourceNotFoundError(_id);
 }
 
+//Get category by id:
+async function getCategoryById(_id: string): Promise<ICategoryModel> {
+   // Find specific cart:
+   const category = CategoryModel.findById(_id).exec();
+   // If cart doesn't exist: 
+   if (!category) throw new ResourceNotFoundError(_id);
+   // return cart:
+   return category;
+}
+
 export default {
    getOneProduct,
    addProduct,
    updateProduct,
-   deleteProduct
+   deleteProduct,
+   getCategoryById
 
 }

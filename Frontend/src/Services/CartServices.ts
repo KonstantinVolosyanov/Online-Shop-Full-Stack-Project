@@ -5,6 +5,8 @@ import CartModel from "../Models/CartModel";
 import { UserModel } from "../Models/UserModel";
 import CartProductModel from "../Models/CartProductModel";
 import OrderModel from "../Models/OrderModel";
+import { ProductsActionType, productsStore } from "../Redux/ProductsState";
+import authServices from "./AuthServices";
 
 class CartServices {
 
@@ -26,9 +28,7 @@ class CartServices {
    //Get cart by userId
    public async getCartByUser(): Promise<CartModel> {
       // Find specific cart:
-      console.log("front send");
       const response = await axios.get<CartModel>(appConfig.cartByUserUrl);
-      console.log("front receive");
       const cart = response.data;
       // return cart:
       return cart;
@@ -50,12 +50,20 @@ class CartServices {
 
    //Get all products in cart
    public async getAllProductsInCart(cartId: string): Promise<CartProductModel[]> {
-      return null
+      //Fetch products in cart from backend:
+      const response = await axios.get<CartProductModel[]>(appConfig.allProductsCartUrl + cartId);
+      const cartProducts = response.data;
+      return cartProducts;
    };
 
    //Add new product to cart:
-   public async addProductToCart(product: ProductModel, cart: CartModel): Promise<CartProductModel> {
-      return null
+   public async addProductToCart(_id: string, cart: CartModel): Promise<void> {
+      // Send request to backend:
+      const response = await axios.post<CartProductModel>(appConfig.productCartUrl + _id, cart);
+      //Receive response to addedProduct
+      const addedCartProduct = response.data;
+      //Send added product into redux global state
+      productsStore.dispatch({ type: ProductsActionType.AddCartProduct, payload: addedCartProduct });
    };
 
    //Delete product from cart:
@@ -64,20 +72,48 @@ class CartServices {
    };
 
    // Subtract 1 from amount in cart:
-   public async subtractProductFromCart(cartProductId: string, cart: CartModel): Promise<CartProductModel> {
-      return null
+   public async subtractProductFromCart(_id: string, cart: CartModel): Promise<void> {
+      // Send request to backend:
+      console.log(_id, cart);
+      const response = await axios.put<CartProductModel>(appConfig.subtractProductUrl + _id, cart);
+      //Receive response to addedProduct
+      const subtractedCartProduct = response.data;
+      //Send added product into redux global state
+      productsStore.dispatch({ type: ProductsActionType.AddCartProduct, payload: subtractedCartProduct });
    };
 
    // ORDERS ------------------------------------------------------------------------------------------
 
    //Get all orders
    public async getAllOrders(): Promise<OrderModel[]> {
-      return null
+      let orders = productsStore.getState().orders;
+      if (orders.length === 0) {
+         const response = await axios.get<OrderModel[]>(appConfig.ordersUrl);
+         orders = response.data;
+         //Update redux global state:
+         productsStore.dispatch({ type: ProductsActionType.FetchOrders, payload: orders })
+      }
+      return orders;
    };
 
+   // public async getOrderByUser(userId: string): Promise<OrderModel> {
+   //    let orders = productsStore.getState().orders;
+   //    let ordersByUser = orders.find(o => o.userId === userId)
+   //    let lastOrder = ordersByUser.length - 1;
+   //    if (orders.length === 0) {
+   //       const response = await axios.get<OrderModel[]>(appConfig.ordersUrl);
+   //       orders = response.data;
+   //       ordersByUser = orders.find(o => o.userId === userId)
+   //       lastOrder = ordersByUser.length - 1;
+   //    }
+   //    return lastOrder
+   // }
+
    //Create order:
-   public async createOrder(order: OrderModel, userId: string, userCart: CartModel): Promise<OrderModel> {
-      return null
+   public async addOrder(order: OrderModel, userId: string, userCart: CartModel): Promise<void> {
+      const response = await axios.post<OrderModel>(appConfig.ordersUrl, order)
+      const addedOrder = response.data;
+      productsStore.dispatch({ type: ProductsActionType.AddOrder, payload: addedOrder })
    };
 };
 

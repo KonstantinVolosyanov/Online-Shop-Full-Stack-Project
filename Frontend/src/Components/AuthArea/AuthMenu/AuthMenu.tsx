@@ -30,10 +30,6 @@ function AuthMenu(): JSX.Element {
             {/* If not user */}
             {!user && <>
                 <span className="UserName">Hello Guest</span>
-                {/* <span className="Pipe"> | </span>
-                <NavLink to="/login">Login</NavLink>
-                <span className="Pipe"> | </span>
-                <NavLink to="/register">Register</NavLink> */}
             </>}
 
             {/* If user: */}

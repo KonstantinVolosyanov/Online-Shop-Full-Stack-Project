@@ -51,9 +51,7 @@ export function authReducer(currentState = new AuthState(), action: AuthAction):
             newState.user = null;
             localStorage.removeItem("token"); // Remove token when logged out
             break;
-
     }
-
     return newState;
 }
 

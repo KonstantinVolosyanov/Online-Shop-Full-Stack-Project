@@ -1,88 +1,65 @@
 import { useEffect, useState } from "react";
-import ProductModel from "../../../Models/ProductModel";
-import "./EditProduct.css";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import adminServices from "../../../Services/AdminServices";
-import notify from "../../../Utils/Notify";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import CategoryModel from "../../../Models/CategoryModel";
+import ProductModel from "../../../Models/ProductModel";
+import adminServices from "../../../Services/AdminServices";
 import productServices from "../../../Services/ProductServices";
-import { UserModel } from "../../../Models/UserModel";
-import { authStore } from "../../../Redux/AuthState";
-
-
-
+import notify from "../../../Utils/Notify";
+import "./EditProduct.css";
 
 function EditProduct(): JSX.Element {
-
+    //Product useState
     const [product, setProduct] = useState<ProductModel>();
+
+    //useEffect for get one product to edit
     useEffect(() => {
+        //get one product by params id
         adminServices.getOneProduct(params._id)
-            .then(product => {
+            .then((product) => {
+                //set previous values
                 setValue("_id", product._id);
                 setValue("name", product.name);
                 setValue("price", product.price);
                 setValue("categoryId", product.categoryId);
                 setProduct(product);
-
             })
             .catch(err => notify.error(err))
     }, []);
 
-    const [user, setUser] = useState<UserModel>();
-    // User UseEffect
-    useEffect(() => {
-        // If not user - navigate to login:
-        if (!authStore.getState().user) {
-            navigate("/login")
-        }
-        setUser(authStore.getState().user);
-        // Listen to AuthState changes + unsubscribe:
-        const unsubscribe = authStore.subscribe(() => {
-            setUser(authStore.getState().user);
-        });
-        return unsubscribe;
-    }, []);
-
-
-    function redirect() {
-        navigate("/list");
-    }
-
+    //Categories useState
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const { register, handleSubmit, formState, setValue } = useForm<ProductModel>();
-    const navigate = useNavigate();
-    const params = useParams();
 
+    //useEffect for get all categories
     useEffect(() => {
         productServices.getAllCategories()
-            .then(dbCategories => setCategories(dbCategories))
-            .catch(err => notify.error(err))
-    }, [])
+            .then((dbCategories) => setCategories(dbCategories))
+            .catch((err) => notify.error(err))
+    }, []);
 
+    //useNavigate
+    const navigate = useNavigate();
+    //useParams
+    const params = useParams();
+    //useForm
+    const { register, handleSubmit, formState, setValue } = useForm<ProductModel>();
+
+    //Send updated product to the admin services
     async function send(product: ProductModel) {
         try {
             product.image = (product.image as unknown as FileList)[0];
-            const image = product.image;
-            await adminServices.updateProduct(product, image);
+            await adminServices.updateProduct(product);
             notify.success("Product has been updated");
-            navigate(-1);
+            navigate("/list");
         } catch (err: any) {
             notify.error(err);
         }
     }
 
     return (
-
         <div className="EditProduct">
-            {user && user.role === "User" && <>
-                {redirect()}
-            </>}
-
             <h2>Edit Product</h2>
-
-            <form onSubmit={handleSubmit((formData) => send(formData))}>
-
+            <form onSubmit={handleSubmit(send)}>
                 {/* Hiding the id on the form in a Hidden input: */}
                 <input type="hidden" {...register("_id")} />
 
@@ -94,9 +71,11 @@ function EditProduct(): JSX.Element {
 
                 <label>Category: </label>
                 <br />
-                <select defaultValue="" {...register("categoryId")}>
+                <select defaultValue={""} {...register("categoryId")}>
                     <option disabled value="">Select category: </option>
-                    {categories.map(c => (<option key={c._id} value={c._id}>{c.name}</option>))}
+                    {/* selected option if: category id === products category id */}
+                    {categories.map((c) => <option selected={c._id === product.categoryId} key={c._id} value={c._id}>{c.name}</option>)}
+
                 </select>
                 <span className="Err">{formState.errors.category?.message}</span>
                 <br />
@@ -114,8 +93,10 @@ function EditProduct(): JSX.Element {
 
                 <button>Edit</button>
 
-            </form >
+                {/* Back button */}
+                <button onClick={() => navigate("/list")}>Back</button>
 
+            </form >
         </div>
     );
 }

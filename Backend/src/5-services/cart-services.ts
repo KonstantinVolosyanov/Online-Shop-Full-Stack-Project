@@ -11,20 +11,9 @@ async function getAllCarts(): Promise<ICartModel[]> {
     return CartModel.find().populate("user").exec()
 };
 
-// //Get one cart
-// async function getOneCart(_id: string): Promise<ICartModel> {
-//     // Find specific cart:
-//     const cart = CartModel.findById(_id).exec();
-//     // If cart doesn't exist: 
-//     if (!cart) throw new ResourceNotFoundError(_id);
-//     // return cart:
-//     return cart;
-// };
-
 //Get cart by userId
 async function getCartByUser(userId: string): Promise<ICartModel> {
     // Find specific cart:
-    
     const cart = await CartModel.findOne({ userId }).exec();
     // If cart doesn't exist: 
     // if (!cart) throw new ResourceNotFoundError(userId);
@@ -79,7 +68,7 @@ async function addProductToCart(product: IProductModel, cart: ICartModel): Promi
         // Update amount of product:
         existingCartProduct.amountInCart++;
         // Calculate amount Price:
-        existingCartProduct.amountPrice = +(existingCartProduct.amountInCart * product.price).toPrecision(4)
+        existingCartProduct.amountPrice = +(existingCartProduct.amountInCart * product.price).toPrecision(4);
         // Update cart total price:
         cart.totalPrice = +(cart.totalPrice + product.price).toPrecision(4);
         // Add updated cart:
@@ -89,8 +78,12 @@ async function addProductToCart(product: IProductModel, cart: ICartModel): Promi
     } else {
         // Create new product in cart:
         const cartProduct = new CartProductModel();
-        // ProductId in cart = product id:
+        // cartProduct id:
         cartProduct.productId = product._id;
+        // cartProduct name:
+        cartProduct.name = product.name;
+        // image Name
+        cartProduct.imageName = product.imageName;
         // Amount = 1:
         cartProduct.amountInCart = 1;
         // Product in cart price = product price:
@@ -115,7 +108,7 @@ async function deleteFromCart(cartId: string): Promise<void> {
     // Find cart by id:
     const cart = await CartModel.findById(deleteProduct.cartId).exec();
     // Calculate cart total price:
-    cart.totalPrice = +(cart.totalPrice - deleteProduct.amountPrice).toPrecision(2);
+    cart.totalPrice = +(cart.totalPrice - deleteProduct.amountPrice).toPrecision(4);
     // Add updated cart:
     await cart.save();
     // If product not found:
@@ -182,7 +175,6 @@ async function createOrder(order: IOrderModel, userId: string, userCart: ICartMo
     // Return cart + user virtual
     const addedOrder = (await (await (await order.save()).populate("cart")).populate("user")).populate("products");
     // Delete products from ordered cart:
-    console.log(userCart._id);
     // Delete ordered cart:
     await deleteCart(userCart._id);
     return (addedOrder);

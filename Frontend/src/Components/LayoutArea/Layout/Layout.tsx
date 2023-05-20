@@ -14,20 +14,6 @@ function Layout(): JSX.Element {
     //User setState:
     const [user, setUser] = useState<UserModel>();
 
-    // // State for showing the RegisterStep1 component
-    // const [showRegister, setShowRegister] = useState(false);
-    // // State for showing the RegisterStep1 component
-    // const [showLogin, setShowLogin] = useState(false);
-
-    // //Define toggleShowRegisterStep1 function:
-    // const toggleShowRegister = () => {
-    //     setShowRegister(!showRegister);
-    // }
-    // //Define toggleShowLogin function:
-    // const toggleShowLogin = () => {
-    //     setShowLogin(!showLogin);
-    // }
-
     //useEffect for user and subscribe:
     useEffect(() => {
         setUser(authStore.getState().user);
@@ -47,11 +33,6 @@ function Layout(): JSX.Element {
             </header>
 
             <menu>
-                {/* {!user && <>
-                    <MainMenu /> 
-                    {!user ? <Login toggleShowLogin={toggleShowLogin} /> : <Register toggleShowRegister={toggleShowRegister} />}
-                </>}
-                {user && <MainMenu />} */}
                 <MainMenu />
             </menu>
 

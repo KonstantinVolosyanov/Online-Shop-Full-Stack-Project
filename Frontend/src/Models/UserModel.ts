@@ -55,7 +55,7 @@ class UserModel {
    // idNumber Validation
    public static idNumberValidation: RegisterOptions = {
       required: { value: true, message: "Missing id number" },
-      minLength: { value: 9, message: "Id number must be minimum 4 chars" },
+      minLength: { value: 9, message: "Id number must be minimum 9 chars" },
       maxLength: { value: 20, message: "Id number can't exceed 30 chars" }
    };
 

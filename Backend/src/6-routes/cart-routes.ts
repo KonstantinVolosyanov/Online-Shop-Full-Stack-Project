@@ -22,20 +22,6 @@ router.get("/carts", verifyLoggedIn, async (request: Request, response: Response
     }
 });
 
-// // GET one cart // GET //http://localhost:4000/api/cart/:_id
-// router.get("/cart/:_id", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-//     try {
-//         // Get cart id from request:
-//         const _id = request.params._id;
-//         // Get one cart by cart-services:
-//         const cart = await cartServices.getOneCart(_id);
-//         // Response JSON:
-//         response.json(cart);
-//     }
-//     catch (err: any) {
-//         next(err);
-//     }
-// });
 
 // GET cart by user // GET //http://localhost:4000/api/cart/:_id
 router.get("/cart-by-user", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
@@ -43,7 +29,6 @@ router.get("/cart-by-user", verifyLoggedIn, async (request: Request, response: R
         // Get cart id from request:
         const userId = (cyber.getUserFromToken(request)).idNumber;
         // Get one cart by cart-services:
-        console.log("send userId into services");
         const cart = await cartServices.getCartByUser(userId);
         // Response JSON:
         response.json(cart);
@@ -113,7 +98,7 @@ router.get("/cart-products/:_id", verifyLoggedIn, async (request: Request, respo
 router.post("/cart/product/:_id", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         // Get product id from params: 
-        const cartProductId = request.params._id;
+        const cartProductId = request.params._id.trim();
         // Find product by id:
         const product = await ProductModel.findById(cartProductId).exec();
         // Get userId from token:
@@ -130,11 +115,12 @@ router.post("/cart/product/:_id", verifyLoggedIn, async (request: Request, respo
     }
 });
 
-// Subtract one from amount in cart // PUT // http://localhost:4000/api/cart/product/:_id
+// Subtract one from amount in cart // PUT // http://localhost:4000/api/cart/subtract/product/:_id
 router.put("/cart/product/subtract/:_id", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         // Get product in cart id from params:
-        const cartProductId = request.params._id;
+        const cartProductId = request.params._id.trim();
+        console.log(cartProductId)
         // Get userId from token:
         const userId = (cyber.getUserFromToken(request)).idNumber;
         // Find cart by user id
@@ -198,7 +184,7 @@ router.post("/order", verifyLoggedIn, async (request: Request, response: Respons
 });
 
 // GET all orders // http://localhost:4000/api/orders
-router.get("/orders", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+router.get("/orders", async (request: Request, response: Response, next: NextFunction) => {
     try {
         // Get all carts by cart-services:
         const orders = await cartServices.getAllOrders();

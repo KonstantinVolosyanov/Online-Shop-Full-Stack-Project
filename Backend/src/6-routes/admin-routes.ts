@@ -46,7 +46,7 @@ router.put("/admin/products/:_id", verifyAdmin, async (request: Request, respons
       // Get product id by params:
       request.body._id = request.params._id;
       // If new image, save name:
-      if (request.file) {request.body.image = request.file.filename};
+      if (request.file) { request.body.image = request.file.filename };
       // Create new Product by model:
       const product = new ProductModel(request.body);
       // Update existing product by admin services:
@@ -68,6 +68,20 @@ router.delete("/admin/products/:_id", verifyAdmin, async (request: Request, resp
       await adminServices.deleteProduct(_id);
       // Respond status:
       response.sendStatus(204);
+   }
+   catch (err: any) {
+      next(err);
+   }
+});
+
+// Get category by Id // GET // http://localhost:4000/api/categories/_id
+router.get("/categories/:_id", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+   try {
+      const _id = request.params._id;
+      // Get all categories by product services:
+      const categories = await adminServices.getCategoryById(_id);
+      // Respond JSON:
+      response.json(categories);
    }
    catch (err: any) {
       next(err);

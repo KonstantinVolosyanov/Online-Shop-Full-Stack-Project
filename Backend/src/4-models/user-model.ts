@@ -67,7 +67,7 @@ export const UserSchema = new Schema<IUserModel>({
    city: {
       type: String,
       required: [true, "Missing city"],
-      enum: ["Tel-Aviv", "Haifa", "Jerusalem", "Rishon-LeZiyyon", "Petah-Tikva", "Netanya", "Ashdod", "Bnei-Brak", "Holon", "Beersheva", "Ramat-Gan", "Rehovot"],
+      enum: ["Tel-Aviv", "Hifa", "Jerusalem", "Rishon-Lezion", "Petah-Tikva", "Netanya", "Ashdod", "Bnei-Brak", "Holon", "Beer-sheva", "Ramat-Gan", "Rehovot"],
       trim: true,
 
    },

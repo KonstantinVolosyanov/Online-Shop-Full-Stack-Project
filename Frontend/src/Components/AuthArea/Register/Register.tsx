@@ -13,23 +13,17 @@ type RegisterProps = {
 
 function Register(props: RegisterProps): JSX.Element {
 
-    const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    console.log(password, confirmPassword);
-
-    // useState for step
+    //useState for step
     const [step, setStep] = useState(1);
-
-    //useForm:
-    const { register, handleSubmit, formState, watch } = useForm<UserModel>();
-
-    // State for showing the Login component
+    //useState for showing the Login component
     const [showLogin, setShowLogin] = useState(false)
-
+    //useForm:
+    const { register, handleSubmit, formState, watch, setError, clearErrors, setValue } = useForm<UserModel>();
     //useNavigate:
     const navigate = useNavigate();
 
-    // Function to toggle the showRegisterStep1 state
+    //Function to toggle the showRegisterStep1 state
     function toggleShowLogin() {
         setShowLogin(!showLogin);
     }
@@ -46,13 +40,26 @@ function Register(props: RegisterProps): JSX.Element {
     }
 
     function checkPassword() {
-        console.log("Enter function");
-        console.log(confirmPassword, password);
+        const password = watch("password");
+        const email = watch("email");
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        if (!emailRegex.test(email)) {
+            setError("email", {
+                type: "manual",
+                message: "Invalid email address",
+            })
+            return;
+        }
         if (password === confirmPassword) {
             setStep(2);
         } else {
             notify.error("Passwords did not match");
         }
+    }
+
+    function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
+        const email = e.target.value;
+        setValue("email", email);
     }
 
     return (
@@ -65,22 +72,22 @@ function Register(props: RegisterProps): JSX.Element {
                             <h3>Step 1</h3>
 
                             <label>Email: </label>
-                            <input type="email" {...register("email", UserModel.emailValidation)} />
+                            <input name="email" type="email" onChange={handleEmailChange} {...register("email")} />
                             <span className="Err">{formState.errors.email?.message}</span>
 
                             <label>Password: </label>
-                            <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} {...register("password", UserModel.passwordValidation)} />
+                            <input name="password" type="password" onChange={(e) => setValue("password", e.target.value)} {...register("password", UserModel.passwordValidation)} />
                             <span className="Err">{formState.errors.password?.message}</span>
 
                             <label>Confirm Password: </label>
-                            <input name="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)} type="password" />
+                            <input name="confirmPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)} />
                             <span className="Err">{formState.errors.password?.message}</span>
 
                             <label>ID: </label>
                             <input type="text" {...register("idNumber", UserModel.idNumberValidation)} />
-                            <span className="Err">{formState.errors.password?.message}</span>
+                            <span className="Err">{formState.errors.idNumber?.message}</span>
 
-                            <button type="submit" onClick={() => setStep(2)} >Continue</button>
+                            <button type="button" onClick={checkPassword} >Continue</button>
                         </>
                     )}
 
@@ -94,19 +101,19 @@ function Register(props: RegisterProps): JSX.Element {
                                 <option disabled value="">Select city: </option>
                                 {Object.values(City).map((city) => (<option key={city} value={city}>{city}</option>))}
                             </select>
-                            <span className="Err">{formState.errors.password?.message}</span>
+                            <span className="Err">{formState.errors.city?.message}</span>
 
                             <label>Street: </label>
                             <input type="street" {...register("street", UserModel.streetValidation)} />
-                            <span className="Err">{formState.errors.email?.message}</span>
+                            <span className="Err">{formState.errors.street?.message}</span>
 
                             <label>Name: </label>
                             <input type="text" {...register("firstName", UserModel.firstNameValidation)} />
-                            <span className="Err">{formState.errors.password?.message}</span>
+                            <span className="Err">{formState.errors.firstName?.message}</span>
 
                             <label>Last Name: </label>
                             <input type="text" {...register("lastName", UserModel.lastNameValidation)} />
-                            <span className="Err">{formState.errors.password?.message}</span>
+                            <span className="Err">{formState.errors.lastName?.message}</span>
 
                             <button>Register</button>
                             <button onClick={() => setStep(1)}>Back</button>
