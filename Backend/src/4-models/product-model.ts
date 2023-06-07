@@ -46,7 +46,7 @@ export const ProductSchema = new Schema<IProductModel>({
    },
    imageName: {
       type: String,
-      required: [true, "Missing image name"],
+      // required: [true, "Missing image name"],
    },
    categoryId: {
       type: mongoose.Schema.Types.ObjectId,

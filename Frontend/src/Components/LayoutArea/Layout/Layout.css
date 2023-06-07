@@ -18,7 +18,7 @@
 .Layout>menu {
    grid-column: span 1;
    height: 85vh;
-   width: 20vw;
+   width: 25vw;
    margin: 0;
    padding: 0;
 }
@@ -27,7 +27,7 @@
    grid-column: span 5;
    display: inline-flex;
    height: 85vh;
-   width: 80vw;
+   width: 75vw;
    overflow-y: auto;
    overflow-x: hidden;
    margin: 0;

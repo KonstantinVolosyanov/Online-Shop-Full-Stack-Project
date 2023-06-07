@@ -27,7 +27,6 @@ class ProductServices {
          const response = await axios.get<CategoryModel[]>(appConfig.categoriesUrl);
          categories = response.data;
          productsStore.dispatch({ type: ProductsActionType.FetchCategories, payload: categories })
-         console.log(categories)
       }
       return categories;
    }
@@ -53,5 +52,4 @@ class ProductServices {
 }
 
 const productServices = new ProductServices();
-
 export default productServices;

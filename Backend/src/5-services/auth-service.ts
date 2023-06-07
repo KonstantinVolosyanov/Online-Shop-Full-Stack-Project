@@ -9,7 +9,9 @@ async function register(user: IUserModel): Promise<string> {
     user.validateSync();
     // If email taken:
     if (await isEmailTaken(user.email)) throw new ValidationError(`Email ${user.email} already taken`);
-    //New user is a user role:
+    // If id number taken:
+    if (await isIdNumberTaken(user.idNumber)) throw new ValidationError(`Id number ${user.idNumber} already taken`);
+    // New user is a user role:
     user.role = "User";
     // Hash password
     user.password = cyber.hashPassword(user.password);
@@ -44,10 +46,21 @@ async function login(credentials: ICredentialsModel): Promise<string> {
 // Check if Email taken:
 async function isEmailTaken(email: string): Promise<boolean> {
     // Create query:
-    const query = { email };
+    const emailQuery = { email };
     // Execute query:
-    const count = UserModel.countDocuments(query);
-    return await count > 0;
+    const emailCount = UserModel.countDocuments(emailQuery)
+    // Return if found:
+    return await emailCount > 0;
+}
+
+//Check if Id number taken:
+async function isIdNumberTaken(idNumber: string): Promise<boolean> {
+    // Create query:
+    const idNumberQuery = { idNumber }
+    // Execute query:
+    const idNumberCount = UserModel.countDocuments(idNumberQuery);
+    // Return if found:
+    return await idNumberCount > 0;
 }
 
 export default {

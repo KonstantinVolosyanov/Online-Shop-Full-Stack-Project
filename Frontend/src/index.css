@@ -14,3 +14,16 @@ a {
     color: rgb(25, 25, 87);
     text-decoration: none;
 }
+
+hr {
+
+    border: none;
+    border-top: 1px dotted white;
+
+}
+
+.BoldText {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}

@@ -7,12 +7,11 @@ import Statistic from "../Statistic/Statistic";
 import "./Home.css";
 
 function Home(): JSX.Element {
-
-    // User UseState:
-    const [user, setUser] = useState<UserModel>();
-
+    
     //useNavigate:
     const navigate = useNavigate();
+    // User UseState:
+    const [user, setUser] = useState<UserModel>();
 
     //Set user and subscribe for changes:
     useEffect(() => {

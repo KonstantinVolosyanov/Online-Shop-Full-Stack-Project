@@ -12,13 +12,13 @@ class Notify {
    // Success window
    public success(message: string): void {
       this.notyf.success(message);
-   }
+   };
 
    // Error window:
    public error(err: any): void {
       const message = this.extractErrorMessage(err);
       this.notyf.error(message);
-   }
+   };
 
    // All error types:
    private extractErrorMessage(err: any): string {
@@ -26,8 +26,7 @@ class Notify {
       if (typeof err.response?.data === "string") return err.response.data;
       if (typeof err.message === "string") return err.message;
       return "Some error, please try again"
-   }
-
+   };
 }
 
 const notify = new Notify();

@@ -59,7 +59,7 @@ function AddProduct(): JSX.Element {
         <div className="AddProduct">
 
             <h2>Add Product</h2>
-
+            
             <form onSubmit={handleSubmit(send)}>
 
                 <label>Name: </label>

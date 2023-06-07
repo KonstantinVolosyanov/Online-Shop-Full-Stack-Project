@@ -13,9 +13,10 @@ interface ProductCardProps {
 
 function ProductCard(props: ProductCardProps): JSX.Element {
 
-
+    // Delete product for Admin:
     async function deleteMe() {
         try {
+            // Confirm:
             if (!window.confirm("Are you sure?")) return;
             await props.deleteProduct(props.product._id);
             notify.success("Product has been deleted")
@@ -24,6 +25,7 @@ function ProductCard(props: ProductCardProps): JSX.Element {
         }
     }
 
+    // Add to cart for User:
     async function addToCart() {
         try {
             await props.addProductToCart(props.product._id);
@@ -34,35 +36,35 @@ function ProductCard(props: ProductCardProps): JSX.Element {
 
     return (
         <div className="ProductCard">
-            {/* if User */}
+            {/* User Card */}
             {props.user && props.user.role === "User" &&
                 <>
-                    <div>
+                    <div className="CardDiv">
                         <img src={props.product.imageUrl} />
-                        {props.product.name}
-                        <br />
-                        {props.product.category.name}
-                        <br />
-                        {props.product.price + " ₪"}
-                        <br />
-                        <br />
-                        <button onClick={addToCart}>➕</button>
+                        <button className="AddToCartButton" onClick={addToCart}>
+                            <span className="CategorySpan">{props.product.category.name}</span>
+                            <br />
+                            <span className="NameSpan">{props.product.name}</span>
+                            <br />
+                            <span className="PriceSpan">{props.product.price + " ₪"}</span>
+                            <br />
+                        </button>
                     </div>
                 </>}
 
-            {/* if Admin */}
+            {/* Admin Card */}
             {props.user && props.user.role === "Admin" &&
                 <>
                     <div>
                         <img src={props.product.imageUrl} />
-                        {props.product.name}
+                        <span className="CategorySpan">{props.product.category.name}</span>
                         <br />
-                        {props.product.category?.name}
+                        <span>{props.product.name}</span>
                         <br />
-                        {props.product.price + " ₪"}
+                        <span>{props.product.price + " ₪"}</span>
                         <br />
-                        <button onClick={deleteMe}>❌</button>
-                        <NavLink to={"/admin/edit/" + props.product._id}>Edit</NavLink>
+                        <button className="DeleteButton" onClick={deleteMe}>Delete</button>
+                        <NavLink className="EditButton" to={"/admin/edit/" + props.product._id}>Edit</NavLink>
                     </div>
                 </>}
         </div>

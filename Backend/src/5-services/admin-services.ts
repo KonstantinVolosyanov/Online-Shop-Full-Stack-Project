@@ -3,7 +3,7 @@ import { CategoryModel, ICategoryModel } from "../4-models/category-model";
 import { ResourceNotFoundError, ValidationError } from "../4-models/client-errors";
 import { IProductModel, ProductModel } from "../4-models/product-model";
 
-//Get one product
+// Get one product
 async function getOneProduct(_id: string): Promise<IProductModel> {
    // Find product by _id:
    const product = ProductModel.findById(_id).exec();
@@ -13,39 +13,38 @@ async function getOneProduct(_id: string): Promise<IProductModel> {
    return product;
 }
 
-//Add new product
+// Add new product
 async function addProduct(product: IProductModel, image: Express.Multer.File): Promise<IProductModel> {
+   // Save image name to database:
    product.imageName = await imageHandler.saveImage(image);
-   // product.imageUrl = await imageHandler.getAbsolutePath(product.imageName)
    // Validate
    const errors = product.validateSync();
    // If validation failed, throw validation error:
    if (errors) throw new ValidationError(errors.message);
-   // Save image name to database:
    // Save and return product:
    return product.save();
 }
 
-//Update existing product:
+// Update existing product:
 async function updateProduct(product: IProductModel, image?: Express.Multer.File): Promise<IProductModel> {
-   //Validate:
+   // Validate:
    const errors = product.validateSync();
-   //If validation failed, throw validation error:
+   // If validation failed, throw validation error:
    if (errors) throw new ValidationError(errors.message);
-   //Find image name by _id:
+   // Find image name by _id:
    const existingImageName = (await ProductModel.findById(product._id).exec()).imageName;
-   //If new image = update image name:
+   // If new image = update image name:
    if (image) {
-      //Save new image
+      // Save new image
       product.imageName = await imageHandler.saveImage(image);
-      //Delete old image
+      // Delete old image
       await imageHandler.deleteImage(existingImageName);
    };
-   //Update product: returnOriginal: false - will return database object and not an argument object.
+   // Update product: returnOriginal: false - will return database object and not an argument object.
    const updatedProduct = await ProductModel.findByIdAndUpdate(product._id, product, { returnOriginal: false }).exec();
-   //If not found, throw recourse error:
+   // If not found, throw recourse error:
    if (!updatedProduct) throw new ResourceNotFoundError(product._id);
-   //Return Updated product:
+   // Return Updated product:
    return updatedProduct;
 }
 

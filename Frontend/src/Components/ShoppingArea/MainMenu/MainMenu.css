@@ -1,12 +1,16 @@
 .MainMenu {
    box-sizing: border-box;
-   display: inline-flex;
-   flex-direction: column;
-   margin: 0;
+   display: inline-block;
+   margin: 0px;
    padding: 0px;
-   width: 20vw;
+   width: 25vw;
    height: 85vh;
    text-align: left;
    background-color: rgb(100, 136, 177);
    color: white;
+}
+
+.MainMenu>div {
+   margin: 0px;
+   width: 100%;
 }

@@ -12,23 +12,23 @@ type RegisterProps = {
 };
 
 function Register(props: RegisterProps): JSX.Element {
-
+    // Confirm password state:
     const [confirmPassword, setConfirmPassword] = useState("");
-    //useState for step
+    // useState for step
     const [step, setStep] = useState(1);
-    //useState for showing the Login component
+    // useState for showing the Login component
     const [showLogin, setShowLogin] = useState(false)
-    //useForm:
+    // useForm:
     const { register, handleSubmit, formState, watch, setError, clearErrors, setValue } = useForm<UserModel>();
     //useNavigate:
     const navigate = useNavigate();
 
-    //Function to toggle the showRegisterStep1 state
+    // Function to toggle the showRegisterStep1 state
     function toggleShowLogin() {
         setShowLogin(!showLogin);
     }
 
-    //Send function for handle register:
+    // Send function for handle register:
     async function send(user: UserModel) {
         try {
             await authServices.register(user);
@@ -39,28 +39,26 @@ function Register(props: RegisterProps): JSX.Element {
         }
     }
 
+    // Check password function
     function checkPassword() {
         const password = watch("password");
         const email = watch("email");
+        // Regex for email check:
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        // If not valid:
         if (!emailRegex.test(email)) {
             setError("email", {
                 type: "manual",
                 message: "Invalid email address",
             })
-            return;
+            return;     
         }
-        if (password === confirmPassword) {
-            setStep(2);
-        } else {
-            notify.error("Passwords did not match");
+        // If valid - go to step 2: 
+        else {
+        setStep(2);
         }
     }
 
-    function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-        const email = e.target.value;
-        setValue("email", email);
-    }
 
     return (
         <div className="Register">
@@ -72,7 +70,7 @@ function Register(props: RegisterProps): JSX.Element {
                             <h3>Step 1</h3>
 
                             <label>Email: </label>
-                            <input name="email" type="email" onChange={handleEmailChange} {...register("email")} />
+                            <input name="email" type="email" onChange={checkPassword} {...register("email")} />
                             <span className="Err">{formState.errors.email?.message}</span>
 
                             <label>Password: </label>

@@ -11,11 +11,18 @@
    color: white;
 }
 
+.StatisticsDiv {
+
+   border-radius: 5px;
+   margin-bottom: 30px;
+   background-color: darkcyan;
+}
+
 .Statistic>h1 {
    box-sizing: border-box;
    margin: 0;
    text-align: center;
-   color: yellowgreen
+   color: greenyellow
 }
 
 
@@ -23,16 +30,17 @@
    box-sizing: border-box;
    margin: 0;
    text-align: center;
-   color: yellowgreen
+   color: greenyellow
 }
 
 .Statistic>h3 {
    box-sizing: border-box;
    margin: 0;
    text-align: center;
-   color: yellowgreen
+   color: greenyellow;
+   background-color: darkcyan;
 }
 
-.Statistic>p {
-   margin: 0;
+.Statistic p {
+   margin: 5px;
 }

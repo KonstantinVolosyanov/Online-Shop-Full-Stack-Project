@@ -9,7 +9,15 @@ import notify from "../../../Utils/Notify";
 import "./EditProduct.css";
 
 function EditProduct(): JSX.Element {
-    //Product useState
+
+    //useNavigate
+    const navigate = useNavigate();
+    //useParams
+    const params = useParams();
+    //useForm
+    const { register, handleSubmit, formState, setValue } = useForm<ProductModel>();
+
+    //Product useState==============================================================
     const [product, setProduct] = useState<ProductModel>();
 
     //useEffect for get one product to edit
@@ -27,7 +35,7 @@ function EditProduct(): JSX.Element {
             .catch(err => notify.error(err))
     }, []);
 
-    //Categories useState
+    //Categories useState==============================================================
     const [categories, setCategories] = useState<CategoryModel[]>([]);
 
     //useEffect for get all categories
@@ -37,14 +45,8 @@ function EditProduct(): JSX.Element {
             .catch((err) => notify.error(err))
     }, []);
 
-    //useNavigate
-    const navigate = useNavigate();
-    //useParams
-    const params = useParams();
-    //useForm
-    const { register, handleSubmit, formState, setValue } = useForm<ProductModel>();
 
-    //Send updated product to the admin services
+    //Send updated product to the admin services=======================================
     async function send(product: ProductModel) {
         try {
             product.image = (product.image as unknown as FileList)[0];
@@ -71,6 +73,7 @@ function EditProduct(): JSX.Element {
 
                 <label>Category: </label>
                 <br />
+                {/* Select category */}
                 <select defaultValue={""} {...register("categoryId")}>
                     <option disabled value="">Select category: </option>
                     {/* selected option if: category id === products category id */}
@@ -91,6 +94,7 @@ function EditProduct(): JSX.Element {
                 <input type="file" accept="image/*" {...register("image", ProductModel.imagePutValidation)} />
                 <span className="Err">{formState.errors.image?.message}</span>
 
+                {/* Submit Button */}
                 <button>Edit</button>
 
                 {/* Back button */}

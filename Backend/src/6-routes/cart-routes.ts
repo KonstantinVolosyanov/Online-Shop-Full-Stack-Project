@@ -120,7 +120,6 @@ router.put("/cart/product/subtract/:_id", verifyLoggedIn, async (request: Reques
     try {
         // Get product in cart id from params:
         const cartProductId = request.params._id.trim();
-        console.log(cartProductId)
         // Get userId from token:
         const userId = (cyber.getUserFromToken(request)).idNumber;
         // Find cart by user id

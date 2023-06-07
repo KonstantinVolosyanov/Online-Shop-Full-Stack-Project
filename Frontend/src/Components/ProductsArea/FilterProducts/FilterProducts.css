@@ -1,0 +1,41 @@
+.FilterProducts {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   width: auto;
+   height: auto;
+   background-color: rgb(142, 182, 226);
+}
+
+.FilterContainer {
+   box-sizing: border-box;
+   position: relative;
+   margin-top: 0;
+}
+
+.FilterProducts .FilterButton {
+   box-sizing: border-box;
+   display: inline-block;
+   background: none;
+   color: rgb(25, 25, 87);
+   border-radius: 5px;
+   border: 1px solid rgb(25, 25, 87);
+   cursor: pointer;
+}
+
+.FilterProducts .ChosenButton {
+   color: white;
+   border: 1px solid white;
+}
+
+.FilterProducts input {
+   box-sizing: border-box;
+   border-radius: 5px;
+   border: 1px solid white;
+   color: white;
+   background-color: rgb(142, 182, 226);
+}
+
+.FilterProducts input::placeholder {
+   color: white;
+}

@@ -5,7 +5,6 @@ import appConfig from "../Utils/AppConfig";
 import productServices from "./ProductServices";
 
 class AdminServices {
-
    //Get one product
    public async getOneProduct(_id: string): Promise<ProductModel> {
       //Take products from global state:

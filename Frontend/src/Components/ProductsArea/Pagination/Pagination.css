@@ -1,3 +1,51 @@
 .Pagination {
-	
+   margin-top: 10vh;
+   background-color: rgb(142, 182, 226);
+}
+
+.Pagination .number {
+   width: 10px;
+   height: 14px;
+   border-radius: 7px;
+   display: inline-block;
+   border: none;
+   margin: 5px;
+}
+
+.Pagination .notActive {
+   width: 10px;
+   height: 14px;
+   border-radius: 7px;
+   display: inline-block;
+   border: 0.5px solid rgb(100, 136, 177);
+   margin: 20px 15px;
+   background-color: white;
+   transition: 0.5s ease-out;
+   cursor: pointer;
+}
+
+.Pagination .active {
+   width: 10px;
+   height: 14px;
+   border-radius: 7px;
+   display: inline-block;
+   margin: 20px 15px;
+   background-color: rgb(100, 136, 177);
+   border: 0.5px solid rgb(100, 136, 177);
+   transition: 0.3s ease-out;
+   cursor: pointer;
+}
+
+.Pagination .Prev {
+   display: inline-block;
+   background: none;
+   border: none;
+   color: white;
+   cursor: pointer;
+   margin: 5px;
+
+}
+
+.Pagination .Prev:hover {
+   color: rgb(100, 136, 177);
 }

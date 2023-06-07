@@ -15,8 +15,6 @@ async function getAllCarts(): Promise<ICartModel[]> {
 async function getCartByUser(userId: string): Promise<ICartModel> {
     // Find specific cart:
     const cart = await CartModel.findOne({ userId }).exec();
-    // If cart doesn't exist: 
-    // if (!cart) throw new ResourceNotFoundError(userId);
     // return cart:
     return cart;
 };

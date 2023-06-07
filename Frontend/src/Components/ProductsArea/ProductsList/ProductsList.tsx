@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CartModel from "../../../Models/CartModel";
 import ProductModel from "../../../Models/ProductModel";
 import { UserModel } from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
+import { productsStore } from "../../../Redux/ProductsState";
+import cartServices from "../../../Services/CartServices";
 import productServices from "../../../Services/ProductServices";
 import notify from "../../../Utils/Notify";
-import ProductCard from "../ProductCard/ProductCard";
-import "./ProductsList.css";
-import adminServices from "../../../Services/AdminServices";
-import { productsStore } from "../../../Redux/ProductsState";
 import Spinner from "../../SharedArea/Spinner";
-import cartServices from "../../../Services/CartServices";
-import CartModel from "../../../Models/CartModel";
+import Pagination from "../Pagination/Pagination";
+import "./ProductsList.css";
 
 function ProductsList(): JSX.Element {
     //Users------------------------------------------------------------------
-    const [user, setUser] = useState<UserModel>();
     const navigate = useNavigate();
-    const [cart, setCart] = useState<CartModel>();
+    const [user, setUser] = useState<UserModel>();
 
     useEffect(() => {
         if (!authStore.getState().user) {
@@ -31,17 +29,6 @@ function ProductsList(): JSX.Element {
         return unsubscribe;
     }, []);
 
-    //Cart useEffect:
-    useEffect(() => {
-        cartServices.getCartByUser()
-            .then(dbCart => {
-                setCart(dbCart);
-            })
-            .catch(err => notify.error(err))
-    }, []);
-
-
-
     //Products---------------------------------------------------------------
     const [products, setProducts] = useState<ProductModel[]>([])
     //Loading state:
@@ -52,7 +39,6 @@ function ProductsList(): JSX.Element {
         productServices.getAllProducts()
             .then(products => {
                 setProducts(products);
-                console.log(products);
                 setLoading(false);
             })
             .catch(err => {
@@ -66,39 +52,16 @@ function ProductsList(): JSX.Element {
         return unsubscribe;
     }, []);
 
-    //Delete product:
-    async function deleteClickedProduct(_id: string) {
-        try {
-            await adminServices.deleteProduct(_id);
-            const duplicatedProducts = [...products];
-            const index = duplicatedProducts.findIndex(p => p._id === _id);
-            duplicatedProducts.splice(index, 1);
-            setProducts(duplicatedProducts);
-        } catch (err: any) {
-            notify.error(err);
-        }
-    }
-
-    //Add product to cart:
-    async function addClickedProduct(_id: string) {
-        try {
-            await cartServices.addProductToCart(_id, cart);
-        } catch (err: any) {
-            notify.error(err);
-        }
-    }
-
     return (
         <div className="ProductsList">
             {/* If loading... */}
             {loading && <Spinner />}
 
-            {/* If not loading */}
-            {!loading && (
-                <div>
-                    {products.map(p => <ProductCard addProductToCart={addClickedProduct} key={p._id} product={p} deleteProduct={deleteClickedProduct} user={user} />)}
-                </div>
-            )}
+            {!loading && <>
+                {/* Pagination UI */}
+                <Pagination user={user} products={products} setProducts={setProducts} />
+            </>
+            }
         </div>
     );
 }

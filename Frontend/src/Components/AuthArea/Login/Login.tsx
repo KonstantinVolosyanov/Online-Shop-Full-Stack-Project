@@ -11,14 +11,13 @@ type LoginProps = {
     toggleShowLogin: () => void;
 };
 
-
 function Login(props: LoginProps): JSX.Element {
     //Use Form:
     const { register, handleSubmit, formState } = useForm<CredentialsModel>();
     //Use Navigate:
     const navigate = useNavigate();
     // State for showing the RegisterStep1 component
-    const [showRegister, setShowRegister] = useState(false);
+    const [showRegister, setShowRegister] = useState<boolean>(false);
     //Send function to handle login:
     async function send(credentials: CredentialsModel) {
         try {

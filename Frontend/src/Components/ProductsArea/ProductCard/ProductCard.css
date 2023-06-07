@@ -1,33 +1,90 @@
 .ProductCard {
    box-sizing: border-box;
    display: inline-flex;
-   position: relative;
-   background-color: brown;
+   background-color: skyblue;
    border-radius: 7px;
-   width: 300px;
-   height: 120px;
+   width: 18vw;
+   height: 13vh;
    margin: 5px;
-   padding: 10px;
+   text-align: left;
+
+}
+
+.CardDiv {
+   box-sizing: border-box;
+   position: relative;
+   width: 18vw;
+   height: 13vh;
 }
 
 .ProductCard img {
-   width: 100px;
-   height: 100px;
+   width: 120px;
+   height: 13vh;
    position: absolute;
    object-fit: cover;
-   display: inline-block;
-   margin: 10px;
-   margin-top: 0px;
-   margin-left: auto;
+   display: inline;
    right: 0px;
-   border-radius: 7px;
+   border-radius: 0px 7px 7px 0px;
+   box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.ProductCard p {
-   display: block;
+.CategorySpan {
+   display: inline-block;
+   width: 150px;
+   color: black;
+   top: 0px;
+   text-align: left;
 }
 
-.ProductCard span {
-   left: -80px;
+.NameSpan {
+   display: inline-block;
+   font-size: large;
+   font-weight: bold;
+   width: 150px;
+   text-align: left;
+}
+
+.PriceSpan {
+   display: inline-block;
+   position: relative;
+   font-weight: bold;
+   font-size: xx-large;
+   width: 150px;
+   color: white;
+   text-align: left;
+   left: 0px;
+
+}
+
+.DeleteProductButton {
+   box-sizing: border-box;
+   display: inline-block;
+   background: none;
+   color: red;
+   border-radius: 5px;
+   border: none;
    cursor: pointer;
+   font-weight: bold;
+   margin-right: 80px;
+}
+
+.EditButton {
+   box-sizing: border-box;
+   display: inline-block;
+   background: none;
+   color: green;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-right: 100px;
+   font-size: medium
+}
+
+.AddToCartButton {
+   position: relative;
+   box-sizing: border-box;
+   display: inline-block;
+   background: none;
+   border: none;
+   cursor: pointer;
+   position: relative;
 }

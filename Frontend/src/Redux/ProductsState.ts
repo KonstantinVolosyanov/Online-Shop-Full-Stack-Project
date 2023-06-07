@@ -6,7 +6,6 @@ import CartProductModel from "../Models/CartProductModel";
 import CategoryModel from "../Models/CategoryModel";
 import OrderModel from "../Models/OrderModel";
 
-
 //1. App State - application level state
 export class ProductsState {
    public products: ProductModel[] = [];
@@ -63,7 +62,6 @@ export function productsReducer(currentState = new ProductsState(), action: Prod
       case ProductsActionType.UpdateProduct:
          const updatedProduct = action.payload;
          newState.products = newState.products.map(p => p._id === updatedProduct._id ? updatedProduct : p)
-         console.log(updatedProduct);
          break;
 
       case ProductsActionType.DeleteProduct:
@@ -116,7 +114,6 @@ export function productsReducer(currentState = new ProductsState(), action: Prod
          newState.orders.push(action.payload);
          break;
    }
-
    return newState;
 }
 

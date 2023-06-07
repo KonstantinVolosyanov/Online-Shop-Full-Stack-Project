@@ -42,6 +42,7 @@ function Statistic(): JSX.Element {
             .catch((err) => notify.error(err))
     }, []);
 
+    // Get last order by user:
     function getLastOrder(user: UserModel) {
         return orders.reduce((acc, order) => {
             if (order.userId === user.idNumber && (!acc || order.orderDateTime > acc.orderDateTime)) {
@@ -92,11 +93,10 @@ function Statistic(): JSX.Element {
 
     return (
         <div className="Statistic">
-            <h1>Statistic</h1>
             <h3>In our online shop:</h3>
 
             {!user && <>
-                <div>
+                <div className="StatisticsDiv">
                     <p>Number of orders completed: {orders.length}</p>
                     <p>Number of products available: {products.length}</p>
                 </div>
@@ -105,18 +105,21 @@ function Statistic(): JSX.Element {
 
             {user && user.role === "User" && (
                 <>
-                    <div>
+                    <div className="StatisticsDiv">
                         <p>Number of orders completed: {orders.length}</p>
                         <p>Number of products available: {products.length}</p>
                     </div>
 
-                    <h2>Hello {user.firstName} {user.lastName}</h2>
+                    <h3>Hello {user.firstName} {user.lastName}</h3>
                     {cart ? (
-                        <>
-                            <h3>You have an open cart:</h3>
-                            <p>Date created: {formatDateTime(cart.dateTime)}</p>
-                            <p>Total price: {cart.totalPrice}</p>
-                        </>
+                        <div className="StatisticsDiv">
+
+                            <>
+                                <p className="BoldText">You have an open cart:</p>
+                                <p>Date created: {formatDateTime(cart.dateTime)}</p>
+                                <p>Total price: {cart.totalPrice}</p>
+                            </>
+                        </div>
                     ) : (
                         <div>
                             {getLastOrder(user)?.orderDateTime ? (

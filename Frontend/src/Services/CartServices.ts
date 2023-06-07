@@ -1,12 +1,9 @@
 import axios from "axios";
-import appConfig from "../Utils/AppConfig";
-import ProductModel from "../Models/ProductModel";
 import CartModel from "../Models/CartModel";
-import { UserModel } from "../Models/UserModel";
 import CartProductModel from "../Models/CartProductModel";
 import OrderModel from "../Models/OrderModel";
 import { ProductsActionType, productsStore } from "../Redux/ProductsState";
-import authServices from "./AuthServices";
+import appConfig from "../Utils/AppConfig";
 
 class CartServices {
 
@@ -74,7 +71,6 @@ class CartServices {
    // Subtract 1 from amount in cart:
    public async subtractProductFromCart(_id: string, cart: CartModel): Promise<void> {
       // Send request to backend:
-      console.log(_id, cart);
       const response = await axios.put<CartProductModel>(appConfig.subtractProductUrl + _id, cart);
       //Receive response to addedProduct
       const subtractedCartProduct = response.data;
@@ -95,19 +91,6 @@ class CartServices {
       }
       return orders;
    };
-
-   // public async getOrderByUser(userId: string): Promise<OrderModel> {
-   //    let orders = productsStore.getState().orders;
-   //    let ordersByUser = orders.find(o => o.userId === userId)
-   //    let lastOrder = ordersByUser.length - 1;
-   //    if (orders.length === 0) {
-   //       const response = await axios.get<OrderModel[]>(appConfig.ordersUrl);
-   //       orders = response.data;
-   //       ordersByUser = orders.find(o => o.userId === userId)
-   //       lastOrder = ordersByUser.length - 1;
-   //    }
-   //    return lastOrder
-   // }
 
    //Create order:
    public async addOrder(order: OrderModel, userId: string, userCart: CartModel): Promise<void> {
