@@ -184,7 +184,6 @@ export default {
     deleteFromCart,
     subtractProductFromCart,
     getAllCarts,
-    // getOneCart,
     getAllProductsInCart,
     createOrder,
     deleteCart,

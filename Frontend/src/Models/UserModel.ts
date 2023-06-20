@@ -10,7 +10,7 @@ enum City {
    ashdod = "Ashdod",
    bneiBrak = "Bnei-Brak",
    holon = "Holon",
-   beersheva = "Beer-sheva",
+   beersheva = "Beer-Sheva",
    ramatGan = "Ramat-Gan",
    rehovot = "Rehovot"
 }
